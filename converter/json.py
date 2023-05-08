@@ -10,5 +10,4 @@ def write_json(file_path, data):
     with open(file_path, 'w') as file:
         json.dump(data.tolist(), file, indent=4)
 
-# Keep the existing read_json function
 
