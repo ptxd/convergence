@@ -39,3 +39,48 @@ def convert_from_binary(target_format, source_file, target_file, dtype, shape):
         tfrecord.write_tfrecord(target_file, data)
     else:
         raise ValueError(f"Unsupported target format: {target_format}")
+
+def convert_from_json(source_file, target_file, target_format):
+    data = json.read_json(source_file)
+
+    if target_format == 'csv':
+        csv.write_csv(target_file, data)
+    elif target_format == 'hdf5':
+        hdf5.write_hdf5(target_file, data)
+    elif target_format == 'caffemodel':
+        caffemodel.write_caffemodel(target_file, data)
+    elif target_format == 'npy':
+        npy.write_npy(target_file, data)
+    elif target_format == 'npz':
+        npz.write_npz(target_file, data)
+    elif target_format == 'tfrecord':
+        tfrecord.write_tfrecord(target_file, data)
+    elif target_format == 'binary':
+        binary.save_binary(target_file, data)
+    else:
+        raise ValueError(f"Unsupported target format: {target_format}")
+    
+
+def convert_to_json(source_format, source_file, target_file):
+    if source_format == 'csv':
+        data = csv.read_csv(source_file)
+    elif source_format == 'hdf5':
+        data = hdf5.read_hdf5(source_file)
+    elif source_format == 'caffemodel':
+        data = caffemodel.read_caffemodel(source_file)
+    elif source_format == 'npy':
+        data = npy.read_npy(source_file)
+    elif source_format == 'npz':
+        data = npz.read_npz(source_file)
+    elif source_format == 'tfrecord':
+        data = tfrecord.read_tfrecord(source_file)
+    elif source_format == 'binary':
+        # You'll need to provide the dtype and shape for binary data
+        dtype = 'float64'  # replace with the correct dtype
+        shape = (100, 5)  # replace with the correct shape
+        data = binary.load_binary(source_file, dtype, shape)
+    else:
+        raise ValueError(f"Unsupported source format: {source_format}")
+
+    json.write_json(target_file, data)
+
